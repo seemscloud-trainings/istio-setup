@@ -20,7 +20,7 @@ helm install istio-base ./base \
   --values base/values.istiod.yaml \
   --values base/values.gateway.yaml \
   --set gateway.enabled=false \
-  --set sidecar.enabled=false --wait
+  --set sidecar.enabled=false --set telemetry.enabled=false --wait
 ```
 
 #### Install / Upgrade
@@ -67,7 +67,7 @@ helm install istio-blue-green ./blue-green \
   --values blue-green/values.gateway-green.yaml \
   --set gateway-blue.enabled=false \
   --set gateway-green.enabled=false \
-  --set sidecar.enabled=false --wait
+  --set sidecar.enabled=false --set telemetry.enabled=false --wait
 ```
 
 #### Install / Upgrade

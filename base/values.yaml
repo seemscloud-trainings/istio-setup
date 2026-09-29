@@ -30,3 +30,29 @@ sidecar:
       - hosts:
           - "./*"
           - "istio-system/*"
+
+## @section Telemetry parameters
+telemetry:
+  ## @param telemetry.enabled Create mesh-wide telemetry after bootstrap
+  ##
+  enabled: true
+  ## @param telemetry.fullnameOverride Override the Telemetry resource name
+  ##
+  fullnameOverride: training-tracing
+  ## @param telemetry.labels [object] Templatable labels overriding commonLabels
+  ##
+  labels: {}
+  ## @param telemetry.annotations [object] Templatable annotations overriding commonAnnotations
+  ##
+  annotations: {}
+  ## @param telemetry.spec [object] Templatable Istio Telemetry spec
+  ##
+  spec:
+    metrics:
+      - providers:
+          - name: prometheus
+    tracing:
+      - providers:
+          - name: otel
+        randomSamplingPercentage: 100
+        useRequestIdForTraceSampling: false
