@@ -70,11 +70,10 @@ helm repo add istio https://istio-release.storage.googleapis.com/charts
 helm repo add opsolving https://opsolving.github.io/charts/
 helm repo update istio opsolving
 helm dependency update ./east-west
-```
-
-```bash
 bash east-west/scripts/generate-ca.sh
 ```
+
+#### Preparations — Cluster A
 
 ```bash
 kubectl create namespace istio-system --dry-run=client -o yaml | kubectl apply -f -
@@ -110,7 +109,7 @@ istioctl create-remote-secret --name=cluster1 --namespace istio-system \
   > .local/remote-secret-cluster1.yaml
 ```
 
-#### Prepare Certificates — Cluster B
+#### Preparations — Cluster B
 
 ```bash
 kubectl create namespace istio-system --dry-run=client -o yaml | kubectl apply -f -
