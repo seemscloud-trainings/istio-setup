@@ -22,7 +22,7 @@ helm upgrade --install istiod-green istio/istiod \
   --version 1.30.5 --values blue-green/values.istiod-green.yaml \
   --wait
 
-helm upgrade --install istiod istio/istiod \
+helm upgrade --install istiod-blue istio/istiod \
   --namespace istio-system \
   --version 1.29.8 --values blue-green/values.istiod-blue.yaml \
   --wait
