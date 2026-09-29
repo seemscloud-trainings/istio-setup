@@ -1,9 +1,13 @@
 ## Base
 
+#### Prepare repo
+
 ```bash
 helm repo add istio https://istio-release.storage.googleapis.com/charts
 helm repo update istio
 ```
+
+#### Install
 
 ```bash
 helm upgrade --install base istio/base \
@@ -30,16 +34,22 @@ helm upgrade --install gateway istio/gateway \
   --wait
 ```
 
+##### Enable by Namespace
+
 ```bash
 kubectl label namespace "<namespace>" istio.io/rev- istio-injection=enabled --overwrite
 ```
 
 ## Blue - Green
 
+#### Prepare repo
+
 ```bash
 helm repo add istio https://istio-release.storage.googleapis.com/charts
 helm repo update istio
 ```
+
+#### Install
 
 ```bash
 helm upgrade --install base istio/base \
@@ -75,6 +85,8 @@ helm upgrade --install gateway-green istio/gateway \
   --version 1.30.5 --values blue-green/values.gateway-green.yaml \
   --wait
 ```
+
+##### Enable by Namespace
 
 ```bash
 kubectl label namespace "<namespace>" istio-injection- istio.io/rev=blue --overwrite
