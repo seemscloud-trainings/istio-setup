@@ -37,7 +37,7 @@ helm upgrade --install gateway istio/gateway \
 ##### Enable by Namespace
 
 ```bash
-kubectl label namespace "<namespace>" istio.io/rev- istio-injection=enabled --overwrite
+kubectl label namespace prod-product istio.io/rev- istio-injection=enabled --overwrite
 ```
 
 ## Blue - Green
@@ -89,9 +89,9 @@ helm upgrade --install gateway-green istio/gateway \
 ##### Enable by Namespace
 
 ```bash
-kubectl label namespace "<namespace>" istio-injection- istio.io/rev=blue --overwrite
+kubectl label namespace prod-product istio-injection- istio.io/rev=blue --overwrite
 ```
 
 ```bash
-kubectl label namespace "<namespace>" istio-injection- istio.io/rev=green --overwrite
+kubectl label namespace prod-pricing istio-injection- istio.io/rev=green --overwrite
 ```

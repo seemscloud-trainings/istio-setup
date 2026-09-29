@@ -13,3 +13,5 @@ Values contain overrides only: omit entries equal to the pinned chart defaults a
 CNI values omit resourceQuotas entirely in both variants, using the chart default disabled state.
 
 Example Sidecar resources import only ./* and istio-system/*; the Alloy import is intentionally omitted. These example files are not applied to the live training cluster. Tracing through Alloy requires a separate collector visibility configuration when using this restrictive Sidecar.
+
+Namespace label examples use only prod-product for Base, and prod-product (blue) plus prod-pricing (green) for Blue - Green.
