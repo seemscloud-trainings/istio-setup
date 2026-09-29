@@ -1,5 +1,3 @@
-## Blue - Green
-
 #### Prepare repo
 
 ```bash

@@ -1,5 +1,3 @@
-## Multicluster — Blue / Green
-
 #### Preparations
 
 ```bash
