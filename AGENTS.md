@@ -25,3 +25,5 @@ Shared trust is created once using east-west/scripts/generate-ca.sh, with one ro
 Do not apply the restrictive Base/Blue-Green Sidecar examples as a multicluster default: remote service imports and collector visibility must be considered separately. Services addressed through Kubernetes DNS need a local Service definition (or separately configured Istio DNS capture) on the source cluster; remote endpoints alone do not create Kubernetes DNS records. The optional east-west Sidecar is disabled by default and imports */* if enabled. The installation sets up reciprocal discovery/transport; actual cross-cluster request verification requires application Services, trust and network reachability.
 
 Values filenames use dot-separated scope/component segments: values.istiod.blue.yaml, values.gateway.green.yaml and values.gateway.east-west.cluster1.yaml. Keep Helm dependency aliases and release names unchanged.
+
+All setup READMEs omit helm repo update and helm dependency update commands at the owner request. Do not restore those lines.

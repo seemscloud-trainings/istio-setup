@@ -3,8 +3,6 @@
 ```bash
 helm repo add istio https://istio-release.storage.googleapis.com/charts
 helm repo add opsolving https://opsolving.github.io/charts/
-helm repo update istio opsolving
-helm dependency update ./base
 ```
 
 #### Install / Upgrade
