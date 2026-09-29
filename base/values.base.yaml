@@ -1,0 +1,8 @@
+defaultRevision: default
+global:
+  istioNamespace: istio-system
+base:
+  enableCRDTemplates: true
+  enableIstioConfigCRDs: true
+experimental:
+  stableValidationPolicy: false

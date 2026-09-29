@@ -1,0 +1,42 @@
+name: gateway
+replicaCount: 3
+podAnnotations:
+  inject.istio.io/templates: gateway
+  sidecar.istio.io/inject: 'true'
+  sidecar.istio.io/proxyCPU: 10m
+  sidecar.istio.io/proxyMemory: 16Mi
+rbac:
+  enabled: true
+serviceAccount:
+  create: true
+autoscaling:
+  enabled: false
+service:
+  type: LoadBalancer
+  annotations:
+    cloud.google.com/load-balancer-type: Internal
+    networking.gke.io/internal-load-balancer-subnet: gke-zeus-lb
+  ports:
+  - name: status-port
+    port: 15021
+    targetPort: 15021
+  - name: http2
+    port: 80
+    targetPort: 8080
+  - name: https
+    port: 443
+    targetPort: 8443
+labels:
+  istio: gateway
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1337
+  runAsGroup: 1337
+  fsGroup: 1337
+  seccompProfile:
+    type: RuntimeDefault
+resources:
+  requests:
+    cpu: 10m
+    memory: 16Mi
+  limits: null

@@ -1,0 +1,53 @@
+enabled: true
+autoscaleEnabled: true
+autoscaleMin: 3
+autoscaleMax: 3
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits: null
+cni:
+  enabled: true
+  provider: default
+telemetry:
+  enabled: true
+  v2:
+    enabled: true
+    prometheus:
+      enabled: true
+global:
+  istioNamespace: istio-system
+  defaultPodDisruptionBudget:
+    enabled: false
+  defaultResources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits: null
+  proxy:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits: null
+  waypoint:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits: null
+base:
+  enableIstioConfigCRDs: true
+pdb:
+  minAvailable: 0
+meshConfig:
+  enableTracing: true
+  extensionProviders:
+  - name: otel
+    opentelemetry:
+      service: alloy.alloy-system.svc.cluster.local
+      port: 4317
+  defaultConfig:
+    tracing:
+      sampling: 100

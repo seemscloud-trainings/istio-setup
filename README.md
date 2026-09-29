@@ -1,3 +1,43 @@
+## Base
+
+### Prepare Repository
+
+```bash
+helm repo add istio https://istio-release.storage.googleapis.com/charts
+helm repo update istio
+```
+
+### Install Base and CNI
+
+```bash
+helm upgrade --install base istio/base \
+  --namespace istio-system --create-namespace \
+  --version 1.30.5 --values base/values.base.yaml
+
+helm upgrade --install cni istio/cni \
+  --namespace istio-system \
+  --version 1.30.5 --values base/values.cni.yaml \
+  --wait
+```
+
+### Install Control Plane
+
+```bash
+helm upgrade --install istiod istio/istiod \
+  --namespace istio-system \
+  --version 1.30.5 --values base/values.istiod.yaml \
+  --wait
+```
+
+### Install Gateway
+
+```bash
+helm upgrade --install gateway istio/gateway \
+  --namespace istio-gateway-system --create-namespace \
+  --version 1.30.5 --values base/values.gateway.yaml \
+  --wait
+```
+
 ## Blue - Green
 
 ### Prepare Repository
