@@ -1,6 +1,6 @@
 # Istio Setup
 
-Training installation documentation and two umbrella charts: base/ and blue-green/. Upstream Istio dependencies are declared in each Chart.yaml and configured by alias-wrapped values.<component>.yaml files. Opsolving common provides Sidecar and Telemetry helpers in templates/. Parent values.yaml owns fullnameOverride, commonLabels/commonAnnotations and Sidecar/Telemetry labels/annotations/spec. Read the chart-local AGENTS.md before editing either chart.
+Training installation documentation and two umbrella charts: base/ and blue-green/. Upstream Istio dependencies are declared in each Chart.yaml and configured by alias-wrapped values.<component>.yaml files. Opsolving common provides Sidecar and Telemetry helpers in templates/. Parent values.yaml owns commonLabels/commonAnnotations and Sidecar/Telemetry labels/annotations/spec. Read the chart-local AGENTS.md before editing either chart.
 
 All base/blue-green dependency workloads, including gateways, use the release namespace istio-system. Gateway dependency names are explicit to preserve gateway, gateway-blue and gateway-green under one parent release. CNI is singleton. The standalone east-west/ examples keep their original installation layout and values; do not wrap or rewrite them during this refactor.
 
