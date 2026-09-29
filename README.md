@@ -94,7 +94,7 @@ kubectl label namespace prod-pricing istio.io/rev=green --overwrite
 
 ## Multicluster — Blue / Green
 
-#### Prepare repo
+#### Preparations
 
 ```bash
 helm repo add istio https://istio-release.storage.googleapis.com/charts
@@ -103,13 +103,9 @@ helm repo update istio opsolving
 helm dependency update ./east-west
 ```
 
-#### Prepare Shared CA — Once
-
 ```bash
 bash east-west/scripts/generate-ca.sh
 ```
-
-#### Prepare Certificates — Cluster A
 
 ```bash
 kubectl create namespace istio-system --dry-run=client -o yaml | kubectl apply -f -
