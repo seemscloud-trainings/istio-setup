@@ -38,6 +38,13 @@ helm upgrade --install gateway istio/gateway \
   --wait
 ```
 
+### Enable Namespace Injection
+
+```bash
+# Applies to newly created pods.
+kubectl label namespace "<namespace>" istio.io/rev- istio-injection=enabled --overwrite
+```
+
 ## Blue - Green
 
 ### Prepare Repository
@@ -86,4 +93,18 @@ helm upgrade --install gateway-green istio/gateway \
   --namespace istio-gateway-system \
   --version 1.30.5 --values blue-green/values.gateway-green.yaml \
   --wait
+```
+
+### Enable Namespace Injection — Blue
+
+```bash
+# Applies to newly created pods.
+kubectl label namespace "<namespace>" istio-injection- istio.io/rev=blue --overwrite
+```
+
+### Enable Namespace Injection — Green
+
+```bash
+# Applies to newly created pods.
+kubectl label namespace "<namespace>" istio-injection- istio.io/rev=green --overwrite
 ```
