@@ -1,17 +1,10 @@
-name: gateway
 replicaCount: 3
 podAnnotations:
-  sidecar.istio.io/inject: 'true'
   sidecar.istio.io/proxyCPU: 10m
   sidecar.istio.io/proxyMemory: 16Mi
-rbac:
-  enabled: true
-serviceAccount:
-  create: true
 autoscaling:
   enabled: false
 service:
-  type: LoadBalancer
   annotations:
     cloud.google.com/load-balancer-type: Internal
   ports:
@@ -24,8 +17,6 @@ service:
   - name: https
     port: 443
     targetPort: 8443
-labels:
-  istio: gateway
 resources:
   requests:
     cpu: 10m

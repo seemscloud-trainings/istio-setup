@@ -1,8 +1,5 @@
-# Based on Karakoram GitOps values; see README for cluster-specific settings.
 revision: blue
 enabled: true
-autoscaleEnabled: true
-autoscaleMin: 1
 autoscaleMax: 1
 resources:
   requests:
@@ -11,15 +8,7 @@ resources:
   limits: null
 cni:
   enabled: true
-  provider: default
-telemetry:
-  enabled: true
-  v2:
-    enabled: true
-    prometheus:
-      enabled: true
 global:
-  istioNamespace: istio-system
   defaultPodDisruptionBudget:
     enabled: false
   defaultResources:
@@ -39,8 +28,6 @@ global:
         cpu: 50m
         memory: 64Mi
       limits: null
-base:
-  enableIstioConfigCRDs: true
 pdb:
   minAvailable: 0
 meshConfig:

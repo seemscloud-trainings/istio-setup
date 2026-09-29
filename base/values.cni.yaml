@@ -1,15 +1,4 @@
-provider: default
 cniBinDir: /home/kubernetes/bin
-excludeNamespaces:
-- kube-system
-chained: true
-ambient:
-  enabled: false
-repair:
-  enabled: true
-  labelPods: false
-  deletePods: false
-  repairPods: true
 resources:
   requests:
     cpu: 50m
@@ -18,12 +7,9 @@ resources:
 resourceQuotas:
   enabled: true
 global:
-  logging:
-    level: info
   logAsJson: true
   defaultResources:
     requests:
       cpu: 50m
       memory: 64Mi
     limits: null
-  nativeNftables: false
