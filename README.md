@@ -108,7 +108,7 @@ helm repo update istio
 #### Prepare Shared CA — Once
 
 ```bash
-bash multicluster/generate-ca.sh
+bash east-west/generate-ca.sh
 ```
 
 #### Install — Cluster A
@@ -128,39 +128,39 @@ kubectl create secret generic cacerts --namespace istio-system \
 ```bash
 helm upgrade --install base istio/base \
   --namespace istio-system --version 1.30.5 \
-  --values multicluster/values.base.yaml
+  --values east-west/values.base.yaml
 
 helm upgrade --install cni istio/cni \
   --namespace istio-system --version 1.30.5 \
-  --values multicluster/values.cni.yaml --wait
+  --values east-west/values.cni.yaml --wait
 ```
 
 ```bash
 helm upgrade --install istiod-green istio/istiod \
   --namespace istio-system --version 1.30.5 \
-  --values multicluster/values.istiod-green.yaml \
-  --values multicluster/cluster1/values.istiod.yaml --wait
+  --values east-west/values.istiod-green.yaml \
+  --values east-west/cluster1/values.istiod.yaml --wait
 
 helm upgrade --install istiod-blue istio/istiod \
   --namespace istio-system --version 1.29.8 \
-  --values multicluster/values.istiod-blue.yaml \
-  --values multicluster/cluster1/values.istiod.yaml --wait
+  --values east-west/values.istiod-blue.yaml \
+  --values east-west/cluster1/values.istiod.yaml --wait
 ```
 
 ```bash
 helm upgrade --install gateway-blue istio/gateway \
   --namespace istio-gateway-system --create-namespace --version 1.29.8 \
-  --values multicluster/values.gateway-blue.yaml --wait
+  --values east-west/values.gateway-blue.yaml --wait
 
 helm upgrade --install gateway-green istio/gateway \
   --namespace istio-gateway-system --create-namespace --version 1.30.5 \
-  --values multicluster/values.gateway-green.yaml --wait
+  --values east-west/values.gateway-green.yaml --wait
 
 helm upgrade --install gateway-eastwest istio/gateway \
   --namespace istio-eastwest-system --create-namespace --version 1.30.5 \
-  --values multicluster/cluster1/values.gateway-eastwest.yaml --wait
+  --values east-west/cluster1/values.gateway-eastwest.yaml --wait
 
-kubectl apply -f multicluster/gateway-eastwest.yaml
+kubectl apply -f east-west/gateway-eastwest.yaml
 ```
 
 ```bash
@@ -194,39 +194,39 @@ kubectl create secret generic cacerts --namespace istio-system \
 ```bash
 helm upgrade --install base istio/base \
   --namespace istio-system --version 1.30.5 \
-  --values multicluster/values.base.yaml
+  --values east-west/values.base.yaml
 
 helm upgrade --install cni istio/cni \
   --namespace istio-system --version 1.30.5 \
-  --values multicluster/values.cni.yaml --wait
+  --values east-west/values.cni.yaml --wait
 ```
 
 ```bash
 helm upgrade --install istiod-green istio/istiod \
   --namespace istio-system --version 1.30.5 \
-  --values multicluster/values.istiod-green.yaml \
-  --values multicluster/cluster2/values.istiod.yaml --wait
+  --values east-west/values.istiod-green.yaml \
+  --values east-west/cluster2/values.istiod.yaml --wait
 
 helm upgrade --install istiod-blue istio/istiod \
   --namespace istio-system --version 1.29.8 \
-  --values multicluster/values.istiod-blue.yaml \
-  --values multicluster/cluster2/values.istiod.yaml --wait
+  --values east-west/values.istiod-blue.yaml \
+  --values east-west/cluster2/values.istiod.yaml --wait
 ```
 
 ```bash
 helm upgrade --install gateway-blue istio/gateway \
   --namespace istio-gateway-system --create-namespace --version 1.29.8 \
-  --values multicluster/values.gateway-blue.yaml --wait
+  --values east-west/values.gateway-blue.yaml --wait
 
 helm upgrade --install gateway-green istio/gateway \
   --namespace istio-gateway-system --create-namespace --version 1.30.5 \
-  --values multicluster/values.gateway-green.yaml --wait
+  --values east-west/values.gateway-green.yaml --wait
 
 helm upgrade --install gateway-eastwest istio/gateway \
   --namespace istio-eastwest-system --create-namespace --version 1.30.5 \
-  --values multicluster/cluster2/values.gateway-eastwest.yaml --wait
+  --values east-west/cluster2/values.gateway-eastwest.yaml --wait
 
-kubectl apply -f multicluster/gateway-eastwest.yaml
+kubectl apply -f east-west/gateway-eastwest.yaml
 ```
 
 ```bash
