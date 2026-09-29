@@ -9,3 +9,5 @@ Validate YAML and render with already available charts. Do not install dependenc
 Gateway values intentionally omit the GKE subnet annotation, explicit securityContext and inject.istio.io/templates override. Keep this simplification limited to istio-setup; infrastructure and Playground repositories retain their own configuration. Upstream chart defaults may still render these fields.
 
 Values contain overrides only: omit entries equal to the pinned chart defaults and release-derived gateway names/labels. Base values.base.yaml is {} because all settings use chart defaults. Keep meaningful null overrides that remove default proxy/gateway limits. Verify cleanup through normalized Helm renders; only the injector ConfigMap original-values bookkeeping may differ.
+
+CNI values omit resourceQuotas entirely in both variants, using the chart default disabled state.

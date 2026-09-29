@@ -5,8 +5,6 @@ resources:
     cpu: 50m
     memory: 64Mi
   limits: null
-resourceQuotas:
-  enabled: true
 global:
   logAsJson: true
   defaultResources:
