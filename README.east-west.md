@@ -46,8 +46,8 @@ helm upgrade --install istio-east-west ./east-west \
   --values east-west/values.istiod-green.yaml \
   --values east-west/values.gateway-blue.yaml \
   --values east-west/values.gateway-green.yaml \
-  --values east-west/cluster1/values.istiod.yaml \
-  --values east-west/cluster1/values.gateway-eastwest.yaml \
+  --values east-west/values.istiod.cluster1.yaml \
+  --values east-west/values.gateway-eastwest.cluster1.yaml \
   --wait
 ```
 
@@ -68,8 +68,8 @@ helm upgrade --install istio-east-west ./east-west \
   --values east-west/values.istiod-green.yaml \
   --values east-west/values.gateway-blue.yaml \
   --values east-west/values.gateway-green.yaml \
-  --values east-west/cluster2/values.istiod.yaml \
-  --values east-west/cluster2/values.gateway-eastwest.yaml \
+  --values east-west/values.istiod.cluster2.yaml \
+  --values east-west/values.gateway-eastwest.cluster2.yaml \
   --wait
 ```
 

@@ -1,6 +1,6 @@
 # East-West Umbrella Chart
 
-One Helm release per cluster contains shared base/CNI, both revisioned istiod and ingress pools, plus the green gateway-eastwest dependency. All workloads and custom resources use release namespace istio-system. Component overrides are alias-wrapped; cluster1/values.istiod.yaml and cluster2/values.istiod.yaml supply root global mesh identity propagated to all dependencies, including both istiod revisions. The cluster gateway file sets the east-west dependency networkGateway.
+One Helm release per cluster contains shared base/CNI, both revisioned istiod and ingress pools, plus the green gateway-eastwest dependency. All workloads and custom resources use release namespace istio-system. Component overrides are alias-wrapped; values.istiod.cluster1.yaml and values.istiod.cluster2.yaml supply root global mesh identity propagated to all dependencies, including both istiod revisions. The cluster gateway file sets the east-west dependency networkGateway.
 
 Parent templates render Telemetry, optional Sidecar and the AUTO_PASSTHROUGH Gateway using Opsolving common metadata helpers. Do not add fullnameOverride defaults. Sidecar is disabled by default; its optional unrestricted spec preserves cross-namespace service discovery. The owner requests a single complete helm upgrade --install per cluster, without bootstrap or disabled-component flags. Fresh-install CRD/injection ordering limitations remain; retries do not guarantee recovery.
 
