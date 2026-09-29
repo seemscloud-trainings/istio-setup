@@ -4,7 +4,7 @@ Training installation documentation and three umbrella charts: base/, blue-green
 
 All umbrella dependency workloads, including gateways, use the release namespace istio-system. Gateway dependency names are explicit to preserve gateway, gateway-blue and gateway-green under one parent release. CNI is singleton. east-west/ is also an umbrella release per cluster with shared values plus cluster identity/network overlays.
 
-README keeps headings and snippets only. Dependencies are prepared explicitly by the operator. Fresh installs bootstrap base/CNI/istiod with gateways, Sidecar and Telemetry disabled, then run the full upgrade command. Subsequent upgrades only use the full command; do not disable existing gateways. No automatic adoption of the earlier standalone Helm releases is provided. Base and Blue - Green remain alternatives. Named revision selection and pinned upstream versions remain unchanged.
+README keeps headings and snippets only. Dependencies are prepared explicitly by the operator. The owner explicitly requests one complete helm upgrade --install for each variant/cluster, with all values and no bootstrap phase or temporary disabling flags. Keep that flow while recognizing that fresh-install CRD/injection ordering may need separate remediation. No automatic adoption of the earlier standalone Helm releases is provided. Base and Blue - Green remain alternatives. Named revision selection and pinned upstream versions remain unchanged.
 
 Validate offline with locally available dependencies. Do not fetch dependencies, run installations or mutate clusters without authorization. Existing local chart copies may be staged in ignored charts/ for rendering; do not handwrite Chart.lock. Commit and push repository changes on the current branch.
 

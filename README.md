@@ -9,25 +9,11 @@ helm repo update istio opsolving
 helm dependency update ./base
 ```
 
-#### Bootstrap — Fresh Installation Only
-
-```bash
-helm install istio-base ./base \
-  --namespace istio-system --create-namespace \
-  --values base/values.yaml \
-  --values base/values.base.yaml \
-  --values base/values.cni.yaml \
-  --values base/values.istiod.yaml \
-  --values base/values.gateway.yaml \
-  --set gateway.enabled=false \
-  --set sidecar.enabled=false --set telemetry.enabled=false --wait
-```
-
 #### Install / Upgrade
 
 ```bash
 helm upgrade --install istio-base ./base \
-  --namespace istio-system \
+  --namespace istio-system --create-namespace \
   --values base/values.yaml \
   --values base/values.base.yaml \
   --values base/values.cni.yaml \
@@ -53,28 +39,11 @@ helm repo update istio opsolving
 helm dependency update ./blue-green
 ```
 
-#### Bootstrap — Fresh Installation Only
-
-```bash
-helm install istio-blue-green ./blue-green \
-  --namespace istio-system --create-namespace \
-  --values blue-green/values.yaml \
-  --values blue-green/values.base.yaml \
-  --values blue-green/values.cni.yaml \
-  --values blue-green/values.istiod-blue.yaml \
-  --values blue-green/values.istiod-green.yaml \
-  --values blue-green/values.gateway-blue.yaml \
-  --values blue-green/values.gateway-green.yaml \
-  --set gateway-blue.enabled=false \
-  --set gateway-green.enabled=false \
-  --set sidecar.enabled=false --set telemetry.enabled=false --wait
-```
-
 #### Install / Upgrade
 
 ```bash
 helm upgrade --install istio-blue-green ./blue-green \
-  --namespace istio-system \
+  --namespace istio-system --create-namespace \
   --values blue-green/values.yaml \
   --values blue-green/values.base.yaml \
   --values blue-green/values.cni.yaml \
@@ -119,33 +88,11 @@ kubectl create secret generic cacerts --namespace istio-system \
   --dry-run=client -o yaml | kubectl apply -f -
 ```
 
-#### Bootstrap — Cluster A — Fresh Installation Only
-
-```bash
-helm install istio-east-west ./east-west \
-  --namespace istio-system \
-  --values east-west/values.yaml \
-  --values east-west/values.base.yaml \
-  --values east-west/values.cni.yaml \
-  --values east-west/values.istiod-blue.yaml \
-  --values east-west/values.istiod-green.yaml \
-  --values east-west/values.gateway-blue.yaml \
-  --values east-west/values.gateway-green.yaml \
-  --values east-west/cluster1/values.istiod.yaml \
-  --values east-west/cluster1/values.gateway-eastwest.yaml \
-  --set gateway-blue.enabled=false \
-  --set gateway-green.enabled=false \
-  --set gateway-eastwest.enabled=false \
-  --set sidecar.enabled=false \
-  --set telemetry.enabled=false \
-  --set eastWestGateway.enabled=false --wait
-```
-
 #### Install / Upgrade — Cluster A
 
 ```bash
 helm upgrade --install istio-east-west ./east-west \
-  --namespace istio-system \
+  --namespace istio-system --create-namespace \
   --values east-west/values.yaml \
   --values east-west/values.base.yaml \
   --values east-west/values.cni.yaml \
@@ -177,33 +124,11 @@ kubectl create secret generic cacerts --namespace istio-system \
   --dry-run=client -o yaml | kubectl apply -f -
 ```
 
-#### Bootstrap — Cluster B — Fresh Installation Only
-
-```bash
-helm install istio-east-west ./east-west \
-  --namespace istio-system \
-  --values east-west/values.yaml \
-  --values east-west/values.base.yaml \
-  --values east-west/values.cni.yaml \
-  --values east-west/values.istiod-blue.yaml \
-  --values east-west/values.istiod-green.yaml \
-  --values east-west/values.gateway-blue.yaml \
-  --values east-west/values.gateway-green.yaml \
-  --values east-west/cluster2/values.istiod.yaml \
-  --values east-west/cluster2/values.gateway-eastwest.yaml \
-  --set gateway-blue.enabled=false \
-  --set gateway-green.enabled=false \
-  --set gateway-eastwest.enabled=false \
-  --set sidecar.enabled=false \
-  --set telemetry.enabled=false \
-  --set eastWestGateway.enabled=false --wait
-```
-
 #### Install / Upgrade — Cluster B
 
 ```bash
 helm upgrade --install istio-east-west ./east-west \
-  --namespace istio-system \
+  --namespace istio-system --create-namespace \
   --values east-west/values.yaml \
   --values east-west/values.base.yaml \
   --values east-west/values.cni.yaml \
