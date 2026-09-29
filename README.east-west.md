@@ -10,32 +10,27 @@ bash east-west/scripts/generate-ca.sh
 
 #### Preparations — Cluster A / B
 
+```bash
+kubectl create namespace istio-system --dry-run=client -o yaml | kubectl apply -f -
+
+kubectl create secret generic cacerts --namespace istio-system \
+  --from-file=.local/multicluster-ca/ca-cert.pem \
+  --from-file=.local/multicluster-ca/ca-key.pem \
+  --from-file=.local/multicluster-ca/root-cert.pem \
+  --from-file=.local/multicluster-ca/cert-chain.pem \
+  --dry-run=client -o yaml | kubectl apply -f -
+```
+
 ##### Cluster A
 
 ```bash
-kubectl create namespace istio-system --dry-run=client -o yaml | kubectl apply -f -
 kubectl label namespace istio-system topology.istio.io/network=network1 --overwrite
-
-kubectl create secret generic cacerts --namespace istio-system \
-  --from-file=.local/multicluster-ca/cluster1/ca-cert.pem \
-  --from-file=.local/multicluster-ca/cluster1/ca-key.pem \
-  --from-file=.local/multicluster-ca/cluster1/root-cert.pem \
-  --from-file=.local/multicluster-ca/cluster1/cert-chain.pem \
-  --dry-run=client -o yaml | kubectl apply -f -
 ```
 
 ##### Cluster B
 
 ```bash
-kubectl create namespace istio-system --dry-run=client -o yaml | kubectl apply -f -
 kubectl label namespace istio-system topology.istio.io/network=network2 --overwrite
-
-kubectl create secret generic cacerts --namespace istio-system \
-  --from-file=.local/multicluster-ca/cluster2/ca-cert.pem \
-  --from-file=.local/multicluster-ca/cluster2/ca-key.pem \
-  --from-file=.local/multicluster-ca/cluster2/root-cert.pem \
-  --from-file=.local/multicluster-ca/cluster2/cert-chain.pem \
-  --dry-run=client -o yaml | kubectl apply -f -
 ```
 
 #### Install / Upgrade — Cluster A
@@ -99,8 +94,7 @@ kubectl apply -f .local/remote-secret-cluster1.yaml
 ```bash
 istioctl remote-clusters
 kubectl -n istio-system get service gateway-eastwest
-openssl x509 -in .local/multicluster-ca/cluster1/root-cert.pem -noout -fingerprint -sha256
-openssl x509 -in .local/multicluster-ca/cluster2/root-cert.pem -noout -fingerprint -sha256
+openssl x509 -in .local/multicluster-ca/root-cert.pem -noout -fingerprint -sha256
 ```
 
 ##### Enable by Namespace — Cluster A
