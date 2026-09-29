@@ -1,0 +1,14 @@
+{{- if .Values.sidecar.enabled }}
+apiVersion: networking.istio.io/v1
+kind: Sidecar
+metadata:
+  name: {{ include "common.names.fullname" . | quote }}
+  namespace: {{ include "common.names.namespace" . | quote }}
+  {{- $labels := include "common.tplvalues.merge" (dict "values" (list .Values.sidecar.labels .Values.commonLabels) "context" .) | fromYaml }}
+  labels: {{- include "common.labels.standard" (dict "customLabels" $labels "context" .) | nindent 4 }}
+  {{- if or .Values.sidecar.annotations .Values.commonAnnotations }}
+  {{- $annotations := include "common.tplvalues.merge" (dict "values" (list .Values.sidecar.annotations .Values.commonAnnotations) "context" .) }}
+  annotations: {{- include "common.tplvalues.render" (dict "value" $annotations "context" .) | nindent 4 }}
+  {{- end }}
+spec: {{- include "common.tplvalues.render" (dict "value" .Values.sidecar.spec "context" .) | nindent 2 }}
+{{- end }}

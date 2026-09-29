@@ -1,0 +1,14 @@
+{{- if .Values.telemetry.enabled }}
+apiVersion: telemetry.istio.io/v1
+kind: Telemetry
+metadata:
+  name: {{ include "common.names.dependency.fullname" (dict "chartName" "telemetry" "chartValues" .Values.telemetry "context" .) | quote }}
+  namespace: {{ include "common.names.namespace" . | quote }}
+  {{- $labels := include "common.tplvalues.merge" (dict "values" (list .Values.telemetry.labels .Values.commonLabels) "context" .) | fromYaml }}
+  labels: {{- include "common.labels.standard" (dict "customLabels" $labels "context" .) | nindent 4 }}
+  {{- if or .Values.telemetry.annotations .Values.commonAnnotations }}
+  {{- $annotations := include "common.tplvalues.merge" (dict "values" (list .Values.telemetry.annotations .Values.commonAnnotations) "context" .) }}
+  annotations: {{- include "common.tplvalues.render" (dict "value" $annotations "context" .) | nindent 4 }}
+  {{- end }}
+spec: {{- include "common.tplvalues.render" (dict "value" .Values.telemetry.spec "context" .) | nindent 2 }}
+{{- end }}

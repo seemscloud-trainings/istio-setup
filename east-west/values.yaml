@@ -1,0 +1,77 @@
+## @section Common parameters
+## @param nameOverride Override parent custom resources chart name
+##
+nameOverride: ""
+## @param commonLabels [object] Templatable labels on parent custom resources
+##
+commonLabels: {}
+## @param commonAnnotations [object] Templatable annotations on parent custom resources
+##
+commonAnnotations: {}
+
+## @section Sidecar parameters
+sidecar:
+  ## @param sidecar.enabled Create an optional Sidecar without restricting cross-namespace discovery
+  ##
+  enabled: false
+  ## @param sidecar.labels [object] Templatable Sidecar labels; override commonLabels
+  ##
+  labels: {}
+  ## @param sidecar.annotations [object] Templatable Sidecar annotations; override commonAnnotations
+  ##
+  annotations: {}
+  ## @param sidecar.spec [object] Templatable Istio Sidecar spec
+  ##
+  spec:
+    egress:
+      - hosts:
+          - "*/*"
+
+## @section Telemetry parameters
+telemetry:
+  ## @param telemetry.enabled Create mesh-wide telemetry after bootstrap
+  ##
+  enabled: true
+  ## @param telemetry.labels [object] Templatable labels overriding commonLabels
+  ##
+  labels: {}
+  ## @param telemetry.annotations [object] Templatable annotations overriding commonAnnotations
+  ##
+  annotations: {}
+  ## @param telemetry.spec [object] Templatable Istio Telemetry spec
+  ##
+  spec:
+    metrics:
+      - providers:
+          - name: prometheus
+    tracing:
+      - providers:
+          - name: otel
+        randomSamplingPercentage: 100
+        useRequestIdForTraceSampling: false
+
+## @section East-west Gateway resource
+eastWestGateway:
+  ## @param eastWestGateway.enabled Create the AUTO_PASSTHROUGH listener after bootstrap
+  ##
+  enabled: true
+  ## @param eastWestGateway.labels [object] Templatable labels overriding commonLabels
+  ##
+  labels: {}
+  ## @param eastWestGateway.annotations [object] Templatable annotations overriding commonAnnotations
+  ##
+  annotations: {}
+  ## @param eastWestGateway.spec [object] Templatable Istio Gateway spec
+  ##
+  spec:
+    selector:
+      istio: gateway-eastwest
+    servers:
+      - port:
+          number: 15443
+          name: tls
+          protocol: TLS
+        tls:
+          mode: AUTO_PASSTHROUGH
+        hosts:
+          - "*.local"

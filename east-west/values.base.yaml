@@ -1,1 +1,6 @@
-defaultRevision: green
+## @section istio-base dependency overrides
+## @param istio-base [object] Values for the upstream chart
+##
+istio-base:
+  defaultRevision: green
+  enabled: true

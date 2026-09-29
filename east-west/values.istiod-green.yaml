@@ -1,43 +1,47 @@
-revision: green
-enabled: true
-autoscaleMax: 3
-resources:
-  requests:
-    cpu: 50m
-    memory: 64Mi
-  limits: null
-cni:
+## @section istiod-green dependency overrides
+## @param istiod-green [object] Values for the upstream chart
+##
+istiod-green:
+  revision: green
   enabled: true
-global:
-  defaultPodDisruptionBudget:
-    enabled: false
-  defaultResources:
+  autoscaleMax: 3
+  resources:
     requests:
       cpu: 50m
       memory: 64Mi
     limits: null
-  proxy:
-    resources:
+  cni:
+    enabled: true
+  global:
+    defaultPodDisruptionBudget:
+      enabled: false
+    defaultResources:
       requests:
         cpu: 50m
         memory: 64Mi
       limits: null
-  waypoint:
-    resources:
-      requests:
-        cpu: 50m
-        memory: 64Mi
-      limits: null
-pdb:
-  minAvailable: 0
-meshConfig:
-  enableTracing: true
-  extensionProviders:
-  - name: otel
-    opentelemetry:
-      service: alloy.alloy-system.svc.cluster.local
-      port: 4317
-  defaultConfig:
-    tracing:
-      sampling: 100
-autoscaleMin: 3
+    proxy:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits: null
+    waypoint:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits: null
+  pdb:
+    minAvailable: 0
+  meshConfig:
+    enableTracing: true
+    extensionProviders:
+    - name: otel
+      opentelemetry:
+        service: alloy.alloy-system.svc.cluster.local
+        port: 4317
+    defaultConfig:
+      tracing:
+        sampling: 100
+  autoscaleMin: 3

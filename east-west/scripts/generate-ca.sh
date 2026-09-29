@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 umask 077
-root_dir="$(cd "$(dirname "$0")/.." && pwd)"
+root_dir="$(cd "$(dirname "$0")/../.." && pwd)"
 ca_dir="$root_dir/.local/multicluster-ca"
 if [ -e "$ca_dir" ]; then
   echo "CA directory already exists: $ca_dir" >&2

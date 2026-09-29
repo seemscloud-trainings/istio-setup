@@ -1,0 +1,14 @@
+{{- if .Values.eastWestGateway.enabled }}
+apiVersion: networking.istio.io/v1
+kind: Gateway
+metadata:
+  name: {{ include "common.names.dependency.fullname" (dict "chartName" "gateway-eastwest" "chartValues" .Values.eastWestGateway "context" .) | quote }}
+  namespace: {{ include "common.names.namespace" . | quote }}
+  {{- $labels := include "common.tplvalues.merge" (dict "values" (list .Values.eastWestGateway.labels .Values.commonLabels) "context" .) | fromYaml }}
+  labels: {{- include "common.labels.standard" (dict "customLabels" $labels "context" .) | nindent 4 }}
+  {{- if or .Values.eastWestGateway.annotations .Values.commonAnnotations }}
+  {{- $annotations := include "common.tplvalues.merge" (dict "values" (list .Values.eastWestGateway.annotations .Values.commonAnnotations) "context" .) }}
+  annotations: {{- include "common.tplvalues.render" (dict "value" $annotations "context" .) | nindent 4 }}
+  {{- end }}
+spec: {{- include "common.tplvalues.render" (dict "value" .Values.eastWestGateway.spec "context" .) | nindent 2 }}
+{{- end }}

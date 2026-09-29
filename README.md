@@ -98,16 +98,18 @@ kubectl label namespace prod-pricing istio.io/rev=green --overwrite
 
 ```bash
 helm repo add istio https://istio-release.storage.googleapis.com/charts
-helm repo update istio
+helm repo add opsolving https://opsolving.github.io/charts/
+helm repo update istio opsolving
+helm dependency update ./east-west
 ```
 
 #### Prepare Shared CA — Once
 
 ```bash
-bash east-west/generate-ca.sh
+bash east-west/scripts/generate-ca.sh
 ```
 
-#### Install — Cluster A
+#### Prepare Certificates — Cluster A
 
 ```bash
 kubectl create namespace istio-system --dry-run=client -o yaml | kubectl apply -f -
@@ -121,42 +123,43 @@ kubectl create secret generic cacerts --namespace istio-system \
   --dry-run=client -o yaml | kubectl apply -f -
 ```
 
-```bash
-helm upgrade --install base istio/base \
-  --namespace istio-system --version 1.30.5 \
-  --values east-west/values.base.yaml
-
-helm upgrade --install cni istio/cni \
-  --namespace istio-system --version 1.30.5 \
-  --values east-west/values.cni.yaml --wait
-```
+#### Bootstrap — Cluster A — Fresh Installation Only
 
 ```bash
-helm upgrade --install istiod-green istio/istiod \
-  --namespace istio-system --version 1.30.5 \
-  --values east-west/values.istiod-green.yaml \
-  --values east-west/cluster1/values.istiod.yaml --wait
-
-helm upgrade --install istiod-blue istio/istiod \
-  --namespace istio-system --version 1.29.8 \
+helm install istio-east-west ./east-west \
+  --namespace istio-system \
+  --values east-west/values.yaml \
+  --values east-west/values.base.yaml \
+  --values east-west/values.cni.yaml \
   --values east-west/values.istiod-blue.yaml \
-  --values east-west/cluster1/values.istiod.yaml --wait
+  --values east-west/values.istiod-green.yaml \
+  --values east-west/values.gateway-blue.yaml \
+  --values east-west/values.gateway-green.yaml \
+  --values east-west/cluster1/values.istiod.yaml \
+  --values east-west/cluster1/values.gateway-eastwest.yaml \
+  --set gateway-blue.enabled=false \
+  --set gateway-green.enabled=false \
+  --set gateway-eastwest.enabled=false \
+  --set sidecar.enabled=false \
+  --set telemetry.enabled=false \
+  --set eastWestGateway.enabled=false --wait
 ```
 
+#### Install / Upgrade — Cluster A
+
 ```bash
-helm upgrade --install gateway-blue istio/gateway \
-  --namespace istio-gateway-system --create-namespace --version 1.29.8 \
-  --values east-west/values.gateway-blue.yaml --wait
-
-helm upgrade --install gateway-green istio/gateway \
-  --namespace istio-gateway-system --create-namespace --version 1.30.5 \
-  --values east-west/values.gateway-green.yaml --wait
-
-helm upgrade --install gateway-eastwest istio/gateway \
-  --namespace istio-eastwest-system --create-namespace --version 1.30.5 \
-  --values east-west/cluster1/values.gateway-eastwest.yaml --wait
-
-kubectl apply -f east-west/gateway-eastwest.yaml
+helm upgrade --install istio-east-west ./east-west \
+  --namespace istio-system \
+  --values east-west/values.yaml \
+  --values east-west/values.base.yaml \
+  --values east-west/values.cni.yaml \
+  --values east-west/values.istiod-blue.yaml \
+  --values east-west/values.istiod-green.yaml \
+  --values east-west/values.gateway-blue.yaml \
+  --values east-west/values.gateway-green.yaml \
+  --values east-west/cluster1/values.istiod.yaml \
+  --values east-west/cluster1/values.gateway-eastwest.yaml \
+  --wait
 ```
 
 ```bash
@@ -173,7 +176,7 @@ kubectl label namespace prod-products istio.io/rev=green --overwrite
 kubectl label namespace prod-orders istio.io/rev=green --overwrite
 ```
 
-#### Install — Cluster B
+#### Prepare Certificates — Cluster B
 
 ```bash
 kubectl create namespace istio-system --dry-run=client -o yaml | kubectl apply -f -
@@ -187,42 +190,43 @@ kubectl create secret generic cacerts --namespace istio-system \
   --dry-run=client -o yaml | kubectl apply -f -
 ```
 
-```bash
-helm upgrade --install base istio/base \
-  --namespace istio-system --version 1.30.5 \
-  --values east-west/values.base.yaml
-
-helm upgrade --install cni istio/cni \
-  --namespace istio-system --version 1.30.5 \
-  --values east-west/values.cni.yaml --wait
-```
+#### Bootstrap — Cluster B — Fresh Installation Only
 
 ```bash
-helm upgrade --install istiod-green istio/istiod \
-  --namespace istio-system --version 1.30.5 \
-  --values east-west/values.istiod-green.yaml \
-  --values east-west/cluster2/values.istiod.yaml --wait
-
-helm upgrade --install istiod-blue istio/istiod \
-  --namespace istio-system --version 1.29.8 \
+helm install istio-east-west ./east-west \
+  --namespace istio-system \
+  --values east-west/values.yaml \
+  --values east-west/values.base.yaml \
+  --values east-west/values.cni.yaml \
   --values east-west/values.istiod-blue.yaml \
-  --values east-west/cluster2/values.istiod.yaml --wait
+  --values east-west/values.istiod-green.yaml \
+  --values east-west/values.gateway-blue.yaml \
+  --values east-west/values.gateway-green.yaml \
+  --values east-west/cluster2/values.istiod.yaml \
+  --values east-west/cluster2/values.gateway-eastwest.yaml \
+  --set gateway-blue.enabled=false \
+  --set gateway-green.enabled=false \
+  --set gateway-eastwest.enabled=false \
+  --set sidecar.enabled=false \
+  --set telemetry.enabled=false \
+  --set eastWestGateway.enabled=false --wait
 ```
 
+#### Install / Upgrade — Cluster B
+
 ```bash
-helm upgrade --install gateway-blue istio/gateway \
-  --namespace istio-gateway-system --create-namespace --version 1.29.8 \
-  --values east-west/values.gateway-blue.yaml --wait
-
-helm upgrade --install gateway-green istio/gateway \
-  --namespace istio-gateway-system --create-namespace --version 1.30.5 \
-  --values east-west/values.gateway-green.yaml --wait
-
-helm upgrade --install gateway-eastwest istio/gateway \
-  --namespace istio-eastwest-system --create-namespace --version 1.30.5 \
-  --values east-west/cluster2/values.gateway-eastwest.yaml --wait
-
-kubectl apply -f east-west/gateway-eastwest.yaml
+helm upgrade --install istio-east-west ./east-west \
+  --namespace istio-system \
+  --values east-west/values.yaml \
+  --values east-west/values.base.yaml \
+  --values east-west/values.cni.yaml \
+  --values east-west/values.istiod-blue.yaml \
+  --values east-west/values.istiod-green.yaml \
+  --values east-west/values.gateway-blue.yaml \
+  --values east-west/values.gateway-green.yaml \
+  --values east-west/cluster2/values.istiod.yaml \
+  --values east-west/cluster2/values.gateway-eastwest.yaml \
+  --wait
 ```
 
 ```bash
@@ -255,7 +259,7 @@ kubectl apply -f .local/remote-secret-cluster1.yaml
 
 ```bash
 istioctl remote-clusters
-kubectl -n istio-eastwest-system get service gateway-eastwest
+kubectl -n istio-system get service gateway-eastwest
 openssl x509 -in .local/multicluster-ca/cluster1/root-cert.pem -noout -fingerprint -sha256
 openssl x509 -in .local/multicluster-ca/cluster2/root-cert.pem -noout -fingerprint -sha256
 ```

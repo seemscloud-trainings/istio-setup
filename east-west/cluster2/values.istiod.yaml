@@ -1,3 +1,5 @@
+## @param global [object] Mesh identity shared by all dependency charts in this cluster
+##
 global:
   meshID: mesh1
   multiCluster:
