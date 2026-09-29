@@ -15,10 +15,10 @@ helm upgrade --install istio-blue-green ./blue-green \
   --values blue-green/values.yaml \
   --values blue-green/values.base.yaml \
   --values blue-green/values.cni.yaml \
-  --values blue-green/values.istiod-blue.yaml \
-  --values blue-green/values.istiod-green.yaml \
-  --values blue-green/values.gateway-blue.yaml \
-  --values blue-green/values.gateway-green.yaml \
+  --values blue-green/values.istiod.blue.yaml \
+  --values blue-green/values.istiod.green.yaml \
+  --values blue-green/values.gateway.blue.yaml \
+  --values blue-green/values.gateway.green.yaml \
   --wait
 ```
 
