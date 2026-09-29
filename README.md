@@ -167,15 +167,6 @@ istioctl create-remote-secret --name=cluster1 --namespace istio-system \
   > .local/remote-secret-cluster1.yaml
 ```
 
-##### Enable by Namespace — Cluster A
-
-```bash
-kubectl label namespace prod-pricing istio.io/rev=blue --overwrite
-kubectl label namespace prod-auth istio.io/rev=blue --overwrite
-kubectl label namespace prod-products istio.io/rev=green --overwrite
-kubectl label namespace prod-orders istio.io/rev=green --overwrite
-```
-
 #### Prepare Certificates — Cluster B
 
 ```bash
@@ -234,15 +225,6 @@ istioctl create-remote-secret --name=cluster2 --namespace istio-system \
   > .local/remote-secret-cluster2.yaml
 ```
 
-##### Enable by Namespace — Cluster B
-
-```bash
-kubectl label namespace prod-inventory istio.io/rev=blue --overwrite
-kubectl label namespace prod-payments istio.io/rev=blue --overwrite
-kubectl label namespace prod-fulfillment istio.io/rev=green --overwrite
-kubectl label namespace prod-notifications istio.io/rev=green --overwrite
-```
-
 #### Enable Endpoint Discovery — Cluster A
 
 ```bash
@@ -262,4 +244,22 @@ istioctl remote-clusters
 kubectl -n istio-system get service gateway-eastwest
 openssl x509 -in .local/multicluster-ca/cluster1/root-cert.pem -noout -fingerprint -sha256
 openssl x509 -in .local/multicluster-ca/cluster2/root-cert.pem -noout -fingerprint -sha256
+```
+
+##### Enable by Namespace — Cluster A
+
+```bash
+kubectl label namespace prod-pricing istio.io/rev=blue --overwrite
+kubectl label namespace prod-auth istio.io/rev=blue --overwrite
+kubectl label namespace prod-products istio.io/rev=green --overwrite
+kubectl label namespace prod-orders istio.io/rev=green --overwrite
+```
+
+##### Enable by Namespace — Cluster B
+
+```bash
+kubectl label namespace prod-inventory istio.io/rev=blue --overwrite
+kubectl label namespace prod-payments istio.io/rev=blue --overwrite
+kubectl label namespace prod-fulfillment istio.io/rev=green --overwrite
+kubectl label namespace prod-notifications istio.io/rev=green --overwrite
 ```
