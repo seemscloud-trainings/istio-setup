@@ -11,3 +11,5 @@ Gateway values intentionally omit the GKE subnet annotation, explicit securityCo
 Values contain overrides only: omit entries equal to the pinned chart defaults and release-derived gateway names/labels. Base values.base.yaml is {} because all settings use chart defaults. Keep meaningful null overrides that remove default proxy/gateway limits. Verify cleanup through normalized Helm renders; only the injector ConfigMap original-values bookkeeping may differ.
 
 CNI values omit resourceQuotas entirely in both variants, using the chart default disabled state.
+
+Example Sidecar resources import only ./* and istio-system/*; the Alloy import is intentionally omitted. These example files are not applied to the live training cluster. Tracing through Alloy requires a separate collector visibility configuration when using this restrictive Sidecar.
