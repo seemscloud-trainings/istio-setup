@@ -104,18 +104,11 @@ openssl x509 -in .local/multicluster-ca/root-cert.pem -noout -fingerprint -sha25
 
 #### Enable by Namespace
 
-##### Cluster A
-
 ```bash
 kubectl label namespace prod-pricing istio.io/rev=blue --overwrite
 kubectl label namespace prod-auth istio.io/rev=blue --overwrite
 kubectl label namespace prod-products istio.io/rev=green --overwrite
 kubectl label namespace prod-orders istio.io/rev=green --overwrite
-```
-
-##### Cluster B
-
-```bash
 kubectl label namespace prod-inventory istio.io/rev=blue --overwrite
 kubectl label namespace prod-payments istio.io/rev=blue --overwrite
 kubectl label namespace prod-fulfillment istio.io/rev=green --overwrite
