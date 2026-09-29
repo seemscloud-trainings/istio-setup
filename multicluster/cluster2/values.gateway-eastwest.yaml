@@ -1,0 +1,10 @@
+revision: green
+networkGateway: network2
+replicaCount: 3
+autoscaling:
+  enabled: false
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits: null

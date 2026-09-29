@@ -1,0 +1,14 @@
+revision: green
+cniBinDir: /home/kubernetes/bin
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits: null
+global:
+  logAsJson: true
+  defaultResources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits: null
