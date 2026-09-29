@@ -31,7 +31,6 @@ helm upgrade --install gateway istio/gateway \
 ```
 
 ```bash
-# Applies to newly created pods.
 kubectl label namespace "<namespace>" istio.io/rev- istio-injection=enabled --overwrite
 ```
 
@@ -78,11 +77,9 @@ helm upgrade --install gateway-green istio/gateway \
 ```
 
 ```bash
-# Applies to newly created pods.
 kubectl label namespace "<namespace>" istio-injection- istio.io/rev=blue --overwrite
 ```
 
 ```bash
-# Applies to newly created pods.
 kubectl label namespace "<namespace>" istio-injection- istio.io/rev=green --overwrite
 ```
