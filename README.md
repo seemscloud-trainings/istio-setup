@@ -1,13 +1,9 @@
 ## Base
 
-### Prepare Repository
-
 ```bash
 helm repo add istio https://istio-release.storage.googleapis.com/charts
 helm repo update istio
 ```
-
-### Install Base and CNI
 
 ```bash
 helm upgrade --install base istio/base \
@@ -20,16 +16,12 @@ helm upgrade --install cni istio/cni \
   --wait
 ```
 
-### Install Control Plane
-
 ```bash
 helm upgrade --install istiod istio/istiod \
   --namespace istio-system \
   --version 1.30.5 --values base/values.istiod.yaml \
   --wait
 ```
-
-### Install Gateway
 
 ```bash
 helm upgrade --install gateway istio/gateway \
@@ -38,8 +30,6 @@ helm upgrade --install gateway istio/gateway \
   --wait
 ```
 
-### Enable Namespace Injection
-
 ```bash
 # Applies to newly created pods.
 kubectl label namespace "<namespace>" istio.io/rev- istio-injection=enabled --overwrite
@@ -47,14 +37,10 @@ kubectl label namespace "<namespace>" istio.io/rev- istio-injection=enabled --ov
 
 ## Blue - Green
 
-### Prepare Repository
-
 ```bash
 helm repo add istio https://istio-release.storage.googleapis.com/charts
 helm repo update istio
 ```
-
-### Install Base and CNI
 
 ```bash
 helm upgrade --install base istio/base \
@@ -66,8 +52,6 @@ helm upgrade --install cni istio/cni \
   --version 1.30.5 --values blue-green/values.cni.yaml \
   --wait
 ```
-
-### Install Control Planes
 
 ```bash
 helm upgrade --install istiod-green istio/istiod \
@@ -81,8 +65,6 @@ helm upgrade --install istiod-blue istio/istiod \
   --wait
 ```
 
-### Install Gateways
-
 ```bash
 helm upgrade --install gateway-blue istio/gateway \
   --namespace istio-gateway-system --create-namespace \
@@ -95,14 +77,10 @@ helm upgrade --install gateway-green istio/gateway \
   --wait
 ```
 
-### Enable Namespace Injection — Blue
-
 ```bash
 # Applies to newly created pods.
 kubectl label namespace "<namespace>" istio-injection- istio.io/rev=blue --overwrite
 ```
-
-### Enable Namespace Injection — Green
 
 ```bash
 # Applies to newly created pods.
