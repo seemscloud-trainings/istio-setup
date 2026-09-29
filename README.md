@@ -1,3 +1,3 @@
 - [Base](README.base.md)
 - [Blue - Green](README.blue-green.md)
-- [East-West](README.east-west.md)
+- [East - West](README.east-west.md)
