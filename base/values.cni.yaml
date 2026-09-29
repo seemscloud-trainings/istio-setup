@@ -1,13 +1,18 @@
-cniBinDir: /home/kubernetes/bin
-resources:
-  requests:
-    cpu: 50m
-    memory: 64Mi
-  limits: null
-global:
-  logAsJson: true
-  defaultResources:
+## @section cni dependency overrides
+## @param cni [object] Values passed to the upstream cni chart
+##
+cni:
+  cniBinDir: /home/kubernetes/bin
+  resources:
     requests:
       cpu: 50m
       memory: 64Mi
     limits: null
+  global:
+    logAsJson: true
+    defaultResources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits: null
+  enabled: true

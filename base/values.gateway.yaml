@@ -1,24 +1,30 @@
-replicaCount: 3
-podAnnotations:
-  sidecar.istio.io/proxyCPU: 10m
-  sidecar.istio.io/proxyMemory: 16Mi
-autoscaling:
-  enabled: false
-service:
-  annotations:
-    cloud.google.com/load-balancer-type: Internal
-  ports:
-  - name: status-port
-    port: 15021
-    targetPort: 15021
-  - name: http2
-    port: 80
-    targetPort: 8080
-  - name: https
-    port: 443
-    targetPort: 8443
-resources:
-  requests:
-    cpu: 10m
-    memory: 16Mi
-  limits: null
+## @section gateway dependency overrides
+## @param gateway [object] Values passed to the upstream gateway chart
+##
+gateway:
+  replicaCount: 3
+  podAnnotations:
+    sidecar.istio.io/proxyCPU: 10m
+    sidecar.istio.io/proxyMemory: 16Mi
+  autoscaling:
+    enabled: false
+  service:
+    annotations:
+      cloud.google.com/load-balancer-type: Internal
+    ports:
+    - name: status-port
+      port: 15021
+      targetPort: 15021
+    - name: http2
+      port: 80
+      targetPort: 8080
+    - name: https
+      port: 443
+      targetPort: 8443
+  resources:
+    requests:
+      cpu: 10m
+      memory: 16Mi
+    limits: null
+  enabled: true
+  name: gateway

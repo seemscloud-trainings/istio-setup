@@ -1,1 +1,5 @@
-{}
+## @section istio-base dependency overrides
+## @param istio-base [object] Values passed to the upstream base chart
+##
+istio-base:
+  enabled: true

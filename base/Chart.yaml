@@ -1,0 +1,27 @@
+apiVersion: v2
+name: istio-base-setup
+description: Istio base umbrella installation
+type: application
+version: 0.1.0
+appVersion: 1.30.5
+dependencies:
+- name: base
+  alias: istio-base
+  version: 1.30.5
+  repository: https://istio-release.storage.googleapis.com/charts
+  condition: istio-base.enabled
+- name: cni
+  version: 1.30.5
+  repository: https://istio-release.storage.googleapis.com/charts
+  condition: cni.enabled
+- name: istiod
+  version: 1.30.5
+  repository: https://istio-release.storage.googleapis.com/charts
+  condition: istiod.enabled
+- name: gateway
+  version: 1.30.5
+  repository: https://istio-release.storage.googleapis.com/charts
+  condition: gateway.enabled
+- name: common
+  version: 2.x.x
+  repository: https://opsolving.github.io/charts/

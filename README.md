@@ -4,33 +4,35 @@
 
 ```bash
 helm repo add istio https://istio-release.storage.googleapis.com/charts
-helm repo update istio
+helm repo add opsolving https://opsolving.github.io/charts/
+helm repo update istio opsolving
+helm dependency update ./base
 ```
 
-#### Install
+#### Bootstrap — Fresh Installation Only
 
 ```bash
-helm upgrade --install base istio/base \
+helm install istio-base ./base \
   --namespace istio-system --create-namespace \
-  --version 1.30.5 --values base/values.base.yaml
-
-helm upgrade --install cni istio/cni \
-  --namespace istio-system \
-  --version 1.30.5 --values base/values.cni.yaml \
-  --wait
+  --values base/values.yaml \
+  --values base/values.base.yaml \
+  --values base/values.cni.yaml \
+  --values base/values.istiod.yaml \
+  --values base/values.gateway.yaml \
+  --set gateway.enabled=false \
+  --set sidecar.enabled=false --wait
 ```
 
-```bash
-helm upgrade --install istiod istio/istiod \
-  --namespace istio-system \
-  --version 1.30.5 --values base/values.istiod.yaml \
-  --wait
-```
+#### Install / Upgrade
 
 ```bash
-helm upgrade --install gateway istio/gateway \
-  --namespace istio-gateway-system --create-namespace \
-  --version 1.30.5 --values base/values.gateway.yaml \
+helm upgrade --install istio-base ./base \
+  --namespace istio-system \
+  --values base/values.yaml \
+  --values base/values.base.yaml \
+  --values base/values.cni.yaml \
+  --values base/values.istiod.yaml \
+  --values base/values.gateway.yaml \
   --wait
 ```
 
@@ -46,43 +48,40 @@ kubectl label namespace prod-product istio-injection=enabled --overwrite
 
 ```bash
 helm repo add istio https://istio-release.storage.googleapis.com/charts
-helm repo update istio
+helm repo add opsolving https://opsolving.github.io/charts/
+helm repo update istio opsolving
+helm dependency update ./blue-green
 ```
 
-#### Install
+#### Bootstrap — Fresh Installation Only
 
 ```bash
-helm upgrade --install base istio/base \
+helm install istio-blue-green ./blue-green \
   --namespace istio-system --create-namespace \
-  --version 1.30.5 --values blue-green/values.base.yaml
-
-helm upgrade --install cni istio/cni \
-  --namespace istio-system \
-  --version 1.30.5 --values blue-green/values.cni.yaml \
-  --wait
+  --values blue-green/values.yaml \
+  --values blue-green/values.base.yaml \
+  --values blue-green/values.cni.yaml \
+  --values blue-green/values.istiod-blue.yaml \
+  --values blue-green/values.istiod-green.yaml \
+  --values blue-green/values.gateway-blue.yaml \
+  --values blue-green/values.gateway-green.yaml \
+  --set gateway-blue.enabled=false \
+  --set gateway-green.enabled=false \
+  --set sidecar.enabled=false --wait
 ```
 
-```bash
-helm upgrade --install istiod-green istio/istiod \
-  --namespace istio-system \
-  --version 1.30.5 --values blue-green/values.istiod-green.yaml \
-  --wait
-
-helm upgrade --install istiod-blue istio/istiod \
-  --namespace istio-system \
-  --version 1.29.8 --values blue-green/values.istiod-blue.yaml \
-  --wait
-```
+#### Install / Upgrade
 
 ```bash
-helm upgrade --install gateway-blue istio/gateway \
-  --namespace istio-gateway-system --create-namespace \
-  --version 1.29.8 --values blue-green/values.gateway-blue.yaml \
-  --wait
-
-helm upgrade --install gateway-green istio/gateway \
-  --namespace istio-gateway-system \
-  --version 1.30.5 --values blue-green/values.gateway-green.yaml \
+helm upgrade --install istio-blue-green ./blue-green \
+  --namespace istio-system \
+  --values blue-green/values.yaml \
+  --values blue-green/values.base.yaml \
+  --values blue-green/values.cni.yaml \
+  --values blue-green/values.istiod-blue.yaml \
+  --values blue-green/values.istiod-green.yaml \
+  --values blue-green/values.gateway-blue.yaml \
+  --values blue-green/values.gateway-green.yaml \
   --wait
 ```
 
@@ -90,9 +89,6 @@ helm upgrade --install gateway-green istio/gateway \
 
 ```bash
 kubectl label namespace prod-product istio.io/rev=blue --overwrite
-```
-
-```bash
 kubectl label namespace prod-pricing istio.io/rev=green --overwrite
 ```
 

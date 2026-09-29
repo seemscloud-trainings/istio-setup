@@ -1,0 +1,32 @@
+## @section Sidecar common parameters
+## @param nameOverride Override the parent Sidecar chart name
+##
+nameOverride: ""
+## @param fullnameOverride Override the Sidecar resource name
+##
+fullnameOverride: default
+## @param commonLabels [object] Templatable labels on the parent Sidecar
+##
+commonLabels: {}
+## @param commonAnnotations [object] Templatable annotations on the parent Sidecar
+##
+commonAnnotations: {}
+
+## @section Sidecar parameters
+sidecar:
+  ## @param sidecar.enabled Create the default Sidecar after the bootstrap stage
+  ##
+  enabled: true
+  ## @param sidecar.labels [object] Templatable Sidecar labels; override commonLabels
+  ##
+  labels: {}
+  ## @param sidecar.annotations [object] Templatable Sidecar annotations; override commonAnnotations
+  ##
+  annotations: {}
+  ## @param sidecar.spec [object] Templatable Istio Sidecar spec
+  ##
+  spec:
+    egress:
+      - hosts:
+          - "./*"
+          - "istio-system/*"

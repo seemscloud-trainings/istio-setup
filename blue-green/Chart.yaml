@@ -1,0 +1,39 @@
+apiVersion: v2
+name: istio-blue-green-setup
+description: Istio blue-green umbrella installation
+type: application
+version: 0.1.0
+appVersion: 1.30.5
+dependencies:
+- name: base
+  alias: istio-base
+  version: 1.30.5
+  repository: https://istio-release.storage.googleapis.com/charts
+  condition: istio-base.enabled
+- name: cni
+  version: 1.30.5
+  repository: https://istio-release.storage.googleapis.com/charts
+  condition: cni.enabled
+- name: istiod
+  alias: istiod-blue
+  version: 1.29.8
+  repository: https://istio-release.storage.googleapis.com/charts
+  condition: istiod-blue.enabled
+- name: istiod
+  alias: istiod-green
+  version: 1.30.5
+  repository: https://istio-release.storage.googleapis.com/charts
+  condition: istiod-green.enabled
+- name: gateway
+  alias: gateway-blue
+  version: 1.29.8
+  repository: https://istio-release.storage.googleapis.com/charts
+  condition: gateway-blue.enabled
+- name: gateway
+  alias: gateway-green
+  version: 1.30.5
+  repository: https://istio-release.storage.googleapis.com/charts
+  condition: gateway-green.enabled
+- name: common
+  version: 2.x.x
+  repository: https://opsolving.github.io/charts/
