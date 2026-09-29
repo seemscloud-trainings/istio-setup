@@ -10,17 +10,31 @@ bash east-west/scripts/generate-ca.sh
 
 #### Preparations — Cluster A / B
 
-```bash
-read -r -p "Cluster number (1=A, 2=B): " CLUSTER_NUMBER
+##### Cluster A
 
+```bash
 kubectl create namespace istio-system --dry-run=client -o yaml | kubectl apply -f -
-kubectl label namespace istio-system topology.istio.io/network=network${CLUSTER_NUMBER} --overwrite
+kubectl label namespace istio-system topology.istio.io/network=network1 --overwrite
 
 kubectl create secret generic cacerts --namespace istio-system \
-  --from-file=.local/multicluster-ca/cluster${CLUSTER_NUMBER}/ca-cert.pem \
-  --from-file=.local/multicluster-ca/cluster${CLUSTER_NUMBER}/ca-key.pem \
-  --from-file=.local/multicluster-ca/cluster${CLUSTER_NUMBER}/root-cert.pem \
-  --from-file=.local/multicluster-ca/cluster${CLUSTER_NUMBER}/cert-chain.pem \
+  --from-file=.local/multicluster-ca/cluster1/ca-cert.pem \
+  --from-file=.local/multicluster-ca/cluster1/ca-key.pem \
+  --from-file=.local/multicluster-ca/cluster1/root-cert.pem \
+  --from-file=.local/multicluster-ca/cluster1/cert-chain.pem \
+  --dry-run=client -o yaml | kubectl apply -f -
+```
+
+##### Cluster B
+
+```bash
+kubectl create namespace istio-system --dry-run=client -o yaml | kubectl apply -f -
+kubectl label namespace istio-system topology.istio.io/network=network2 --overwrite
+
+kubectl create secret generic cacerts --namespace istio-system \
+  --from-file=.local/multicluster-ca/cluster2/ca-cert.pem \
+  --from-file=.local/multicluster-ca/cluster2/ca-key.pem \
+  --from-file=.local/multicluster-ca/cluster2/root-cert.pem \
+  --from-file=.local/multicluster-ca/cluster2/cert-chain.pem \
   --dry-run=client -o yaml | kubectl apply -f -
 ```
 
